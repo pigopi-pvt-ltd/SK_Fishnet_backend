@@ -16,10 +16,14 @@ connectDB();
 // --- 2. Middleware ---
 app.use(express.json()); 
 
-// CORS Configuration (Security Best Practice)
+
+// CORS Configuration 
 const corsOptions = {
-    origin: process.env.FRONTEND_URL || '*',   // can change in production for safety purposes
-    methods: ['GET', 'POST', 'DELETE'],
+    origin: [
+        'http://localhost:5173',           // For Local Development
+        'https://sk-fishnet.pigo-pi.com'   // For Live Production 
+    ],
+    methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
     credentials: true
 };
 app.use(cors(corsOptions));
