@@ -6,6 +6,7 @@ require('dotenv').config();
 const connectDB = require('./config/db');
 const invoiceRoutes = require('./routes/invoiceRoutes');
 const productRoutes = require('./routes/productRoutes');
+const employeeRoutes = require('./routes/employeeRoutes'); // Import Employee Routes
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -16,14 +17,11 @@ connectDB();
 // --- 2. Middleware ---
 app.use(express.json()); 
 
-
-// CORS Configuration 
+// CORS Configuration (Security Best Practice)
 const corsOptions = {
-    origin: [
-        'http://localhost:5173',           // For Local Development
-        'https://sk-fishnet.pigo-pi.com'   // For Live Production 
-    ],
-    methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
+    origin: process.env.FRONTEND_URL || '*',   // can change in production for safety purposes
+    // methods: ['GET', 'POST', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true
 };
 app.use(cors(corsOptions));
@@ -36,6 +34,7 @@ if (process.env.NODE_ENV === 'development') {
 // --- 3. Routes ---
 app.use('/api/invoices', invoiceRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/employees', employeeRoutes); // Employee Routes
 
 // --- 4. Base Route ---
 app.get('/', (req, res) => {
