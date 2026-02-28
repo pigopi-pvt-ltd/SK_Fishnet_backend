@@ -19,10 +19,11 @@ app.use(express.json());
 
 // CORS Configuration (Security Best Practice)
 const corsOptions = {
-    origin: process.env.FRONTEND_URL || '*',   // can change in production for safety purposes
+    // origin: process.env.FRONTEND_URL || '*',   // can change in production for safety purposes
+    origin: ['https://sk-fishnet.pigo-pi.com', 'http://localhost:5173'],
     // methods: ['GET', 'POST', 'DELETE'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    credentials: true
+    // credentials: true
 };
 app.use(cors(corsOptions));
 
