@@ -7,6 +7,7 @@ const connectDB = require('./config/db');
 const invoiceRoutes = require('./routes/invoiceRoutes');
 const productRoutes = require('./routes/productRoutes');
 const employeeRoutes = require('./routes/employeeRoutes'); // Import Employee Routes
+const paymentRoutes = require('./routes/paymentRoutes');  // Tmport Payment Routes
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -36,6 +37,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api/invoices', invoiceRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/employees', employeeRoutes); // Employee Routes
+app.use('/api/payments', paymentRoutes);  // Payment Routes
 
 // --- 4. Base Route ---
 app.get('/', (req, res) => {
