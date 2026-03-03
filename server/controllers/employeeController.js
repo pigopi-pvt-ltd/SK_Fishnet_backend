@@ -54,18 +54,19 @@ exports.addTransaction = async (req, res) => {
         
         if (!employee) return res.status(404).json({ error: 'Employee not found' });
 
+        // Math.abs used so that even if entered - before amount then it dont create any issue
+        const absAmount = Math.abs(Number(amount)); 
+
         // Add transaction to history
-        const newTransaction = { type, amount: Number(amount), description, date: date || new Date() };
+        const newTransaction = { type, amount: absAmount, description, date: date || new Date() };
         employee.transactions.push(newTransaction);
 
-        // Update Outstanding Balance Logic
-        // If Advance Given -> Balance increases (Employee owes admin)
-        // If Salary Paid or Deduction -> Balance decreases (Admin adjusted the advance)
-        if (type === 'Advance Given') {
-            employee.outstandingBalance += Number(amount);
-        } else if (type === 'Salary Paid' || type === 'Deduction') {
-            employee.outstandingBalance -= Number(amount);
+        if (type === 'Advance Given' || type === 'Salary Paid') {
+            employee.outstandingBalance -= absAmount;
+        } else if (type === 'Deduction') {
+            employee.outstandingBalance += absAmount;
         }
+         // there is no change due to 'Other"
 
         const savedEmployee = await employee.save();
         res.status(200).json(savedEmployee);
