@@ -1,10 +1,13 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const employeeSchema = new mongoose.Schema({
+    // SAAS FIELD: Data Isolation
+    businessId: { type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true },
+
     // Basic Details
     name: { type: String, required: true },
     phone: { type: String, required: true },
-    email: { type: String, default: '' }, // Optional Email
+    email: { type: String, default: '' },
     role: { type: String, default: 'Worker' },
     
     // Personal Details
@@ -14,7 +17,7 @@ const employeeSchema = new mongoose.Schema({
     gender: { type: String, enum: ['Male', 'Female', 'Other', ''], default: '' },
     
     // Address Details
-    address: { type: String, default: '' }, // Primary Address
+    address: { type: String, default: '' },
     alternateAddress: { type: String, default: '' },
     city: { type: String, default: '' },
     area: { type: String, default: '' },
@@ -41,7 +44,7 @@ const employeeSchema = new mongoose.Schema({
     // Ledger / Khata
     transactions: [{
         date: { type: Date, default: Date.now },
-        type: { type: String, enum: ['Advance Given', 'Salary Paid', 'Deduction', 'Other'], required: true },
+        type: { type: String, enum: ['Advance Given', 'Salary Paid', 'Deduction', 'Deposit with Admin', 'Other'], required: true },
         amount: { type: Number, required: true },
         description: { type: String }
     }],
@@ -50,4 +53,4 @@ const employeeSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-module.exports = mongoose.model('Employee', employeeSchema);
+export default mongoose.model('Employee', employeeSchema);

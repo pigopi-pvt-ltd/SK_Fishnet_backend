@@ -1,11 +1,12 @@
-const express = require('express');
-const router = express.Router();
-const { 
+import express from 'express';
+import { 
     createInvoice, 
     getInvoices, 
     cancelInvoice, 
     getLastInvoiceNumber 
-} = require('../controllers/invoiceController');
+} from './invoice.controller.js';
+
+const router = express.Router();
 
 // Currently present routes
 router.post('/', createInvoice);
@@ -13,4 +14,4 @@ router.get('/', getInvoices);
 router.delete('/:id', cancelInvoice);
 router.get('/last-number', getLastInvoiceNumber);
 
-module.exports = router;
+export default router;

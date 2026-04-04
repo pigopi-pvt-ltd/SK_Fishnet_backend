@@ -1,6 +1,15 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const invoiceSchema = new mongoose.Schema({
+    // ==========================================
+    // SAAS FIELD: Data Isolation
+    // ==========================================
+    businessId: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Business', 
+        required: true 
+    },
+    
     invoiceNumber: { type: String, required: true },
     status: { type: String, enum: ['Active', 'Cancelled'], default: 'Active' },
     date: { type: Date, default: Date.now },
@@ -34,4 +43,4 @@ const invoiceSchema = new mongoose.Schema({
     amountInWords: { type: String }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Invoice', invoiceSchema);
+export default mongoose.model('Invoice', invoiceSchema);

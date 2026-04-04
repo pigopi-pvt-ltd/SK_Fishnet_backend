@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import * as paymentController from './payment.controller.js';
+
 const router = express.Router();
-const paymentController = require('../controllers/paymentController');
 
 // Vendor Routes
 router.get('/vendors', paymentController.getAllVendors);
@@ -12,4 +13,4 @@ router.post('/vendors/:id/transaction', paymentController.addVendorTransaction);
 router.get('/sales-ledger', paymentController.getCombinedSalesLedger);
 router.post('/sales-ledger/manual', paymentController.addManualSale);
 
-module.exports = router;
+export default router;
